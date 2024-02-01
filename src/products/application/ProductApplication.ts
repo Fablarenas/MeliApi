@@ -41,6 +41,9 @@ export class ProductApplication implements IProductApplication {
   
 
 private mapToProductListResponse(data: ProductListDto): ProductListResponse {
+  const categories = data.available_filters.find((filter: any) => filter.id === 'category')
+  const categoryNames: string[] = categories.values.map((category: any) => category.name);
+  const lastThreeCategories = categoryNames.slice(-4);
     const productListResponse = new ProductListResponse();
     
     productListResponse.author = {
@@ -48,9 +51,7 @@ private mapToProductListResponse(data: ProductListDto): ProductListResponse {
       lastname: 'Arenas Pamplona',
     };
 
-    productListResponse.categories = data.filters
-      .find(filter => filter.id === 'category')?.values
-      .map(value => value.name) || [];
+    productListResponse.categories = lastThreeCategories ?? []
   
     productListResponse.items = data.results.map(result => ({
       id: result.id,
