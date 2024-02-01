@@ -42,7 +42,7 @@ export class ProductApplication implements IProductApplication {
 
 private mapToProductListResponse(data: ProductListDto): ProductListResponse {
   const categories = data.available_filters.find((filter: any) => filter.id === 'category')
-  const categoryNames: string[] = categories.values.map((category: any) => category.name);
+  const categoryNames: string[] = categories?.values.map((category: any) => category.name) ?? [];
   const lastThreeCategories = categoryNames.slice(-4);
     const productListResponse = new ProductListResponse();
     
